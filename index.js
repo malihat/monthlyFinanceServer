@@ -21,8 +21,8 @@ app.use('/api', totalRecordRouter);
 
 
 
-// Connect to Mongodb
-mongoose.connect(process.env.MONGO_URI, {
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URL, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true
     })
