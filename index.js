@@ -13,23 +13,23 @@ app.use(cors());
 app.use(express.json());
 
 app.use(express.json()); // Middleware to parse JSON requests
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('https://financetrackerbackend.vercel.app/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', financeRecordRouter);
-app.use('/api', totalRecordRouter);
+app.use('https://financetrackerbackend.vercel.app/', financeRecordRouter);
+app.use('https://financetrackerbackend.vercel.app/api', totalRecordRouter);
 
 
 
-// Connect to Mongodb
-mongoose.connect(process.env.MONGO_URI, {
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URL, {
     // useNewUrlParser: true,
     // useUnifiedTopology: true
     })
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log("Not connected to Mongodb: ", err.message))
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0/0', () => {
     console.log('Server is running on port 5000');
 });
 
