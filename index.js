@@ -16,8 +16,8 @@ app.use(express.json()); // Middleware to parse JSON requests
 app.use('https://financetrackerbackend.vercel.app/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.urlencoded({ extended: true }));
 
-app.use('https://financetrackerbackend.vercel.app/', financeRecordRouter);
-app.use('https://financetrackerbackend.vercel.app/api', totalRecordRouter);
+app.use('/', financeRecordRouter);
+app.use('/api', totalRecordRouter);
 
 
 
