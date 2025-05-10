@@ -9,7 +9,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://monthly-finance-client.vercel.app/', // or '*', but this is less secure
+  credentials: true
+}));
 app.use(express.json());
 
 app.use(express.json()); // Middleware to parse JSON requests
