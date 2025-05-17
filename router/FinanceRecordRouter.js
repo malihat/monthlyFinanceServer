@@ -1,20 +1,41 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const FinanceRecordModel = require('../models/FinanceRecordModel');
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 const router = express.Router();
 
-// Multer setup
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${file.originalname}`);
-    }
-  });
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
+});
+
 const upload = multer({ storage });
+
+// Multer setup
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//       cb(null, `${file.originalname}`);
+//     }
+//   });
+// const upload = multer({ storage });
 
 // Get the form 
 router.get('/', async (req, res) => {
@@ -31,7 +52,8 @@ router.get('/', async (req, res) => {
 router.post('/', upload.single('image'), async (req, res) => {
     try {
         const {date, store, amount, payment} = req.body;
-        const image = req.file ? req.file.filename : ''; 
+        // const image = req.file ? req.file.filename : ''; 
+        const image = req.file ? req.file.path : '';
 
         const newItem = {
           date,
